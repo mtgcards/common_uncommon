@@ -1,0 +1,142 @@
+/* ===== Merchant Scroll 風レイアウト（about.html） ===== */
+
+.scroll-wrapper {
+  max-width: 700px;
+  margin: 2rem auto 5rem;
+  position: relative;
+  /* ローラー分の余白 */
+  padding: 21px 0;
+}
+
+/* 羊皮紙本体 */
+.scroll-body {
+  position: relative;
+  padding: 2.8rem 3.5rem;
+  background:
+    radial-gradient(ellipse at 18% 8%, rgba(255, 250, 220, 0.65) 0%, transparent 48%),
+    radial-gradient(ellipse at 82% 92%, rgba(190, 148, 68, 0.28) 0%, transparent 48%),
+    linear-gradient(172deg, #f4e8c0 0%, #ecd8a0 22%, #f0e2ba 52%, #e6d69a 78%, #eedaa8 100%);
+  border-left: 3px solid #8a6030;
+  border-right: 3px solid #8a6030;
+  box-shadow:
+    inset 14px 0 28px rgba(100, 60, 8, 0.14),
+    inset -14px 0 28px rgba(100, 60, 8, 0.14),
+    0 8px 40px rgba(0, 0, 0, 0.88);
+}
+
+/* 巻物ローラー（上下共通） */
+.scroll-roller {
+  position: absolute;
+  left: -15px;
+  right: -15px;
+  height: 42px;
+  border-radius: 21px;
+  background: linear-gradient(to bottom,
+    #1c0e04 0%,
+    #6a4820 14%,
+    #b88038 30%,
+    #e8b850 44%,
+    #f8d068 50%,
+    #e8b850 56%,
+    #b88038 70%,
+    #6a4820 86%,
+    #1c0e04 100%);
+  box-shadow:
+    0 5px 18px rgba(0, 0, 0, 0.82),
+    inset 0 2px 5px rgba(255, 228, 120, 0.42),
+    inset 0 -2px 5px rgba(0, 0, 0, 0.45);
+  z-index: 3;
+}
+
+.scroll-roller.top    { top: 0; }
+.scroll-roller.bottom { bottom: 0; }
+
+/* 見出し（青：青のカード色） */
+.scroll-body h1 {
+  font-size: 1.75rem;
+  color: #163a68;
+  text-align: center;
+  margin-bottom: 1.6rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 2px solid #9a7030;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+}
+
+.scroll-body h2 {
+  font-size: 1.05rem;
+  color: #163a68;
+  margin: 1.8rem 0 0.5rem;
+  padding-left: 0.6rem;
+  border-left: 3px solid #9a7030;
+}
+
+/* 本文（羊皮紙上の暗い茶色） */
+.scroll-body p {
+  line-height: 1.9;
+  color: #281806;
+  margin-bottom: 0.8rem;
+}
+
+.scroll-body ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.scroll-body ul li {
+  line-height: 1.9;
+  color: #281806;
+  padding-left: 1.2rem;
+  position: relative;
+}
+
+.scroll-body ul li::before {
+  content: '◆';
+  position: absolute;
+  left: 0;
+  color: #9a7030;
+  font-size: 0.65rem;
+  top: 0.38rem;
+}
+
+/* 本文内リンク */
+.scroll-body a:not(.back-link) {
+  color: #163a68;
+  text-decoration: underline;
+}
+
+.scroll-body a:not(.back-link):hover {
+  color: #2a5a9a;
+}
+
+/* 戻るボタン（円形・巻物テーマの青） */
+.scroll-body .back-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  padding: 0;
+  margin-top: 2rem;
+  background: linear-gradient(to bottom, #1e4a78, #0e2a48);
+  color: #e8d898;
+  border: 2px solid #c8a040;
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 1.3;
+}
+
+.scroll-body .back-link:hover {
+  background: linear-gradient(to bottom, #2a5a90, #163a60);
+  color: #fff;
+  border-color: #e8c860;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.5), 0 0 12px rgba(200, 160, 64, 0.4);
+}
+
+@media (max-width: 600px) {
+  .scroll-body {
+    padding: 2rem 1.5rem;
+  }
+}

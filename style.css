@@ -1,3 +1,25 @@
+/* ===== Design Tokens ===== */
+:root {
+  /* Primary accent */
+  --gold:         #d4a017;
+  --gold-light:   #ffe699;
+  /* Secondary accent */
+  --crimson:      #8b1a1a;
+  --crimson-dark: #4a0e0e;
+  /* Mana blue */
+  --mana-blue:    #1e5fa8;
+  /* Backgrounds */
+  --bg-darkest:   #1a0e05;
+  --bg-dark:      #2b1a0e;
+  --bg-mid:       #3d2314;
+  /* Text */
+  --text:         #e0d0b0;
+  --text-muted:   #a08c70;
+  --text-dim:     #c0b090;
+  /* Borders */
+  --border:       #4a2e15;
+}
+
 /* ===== Reset & Base ===== */
 *,
 *::before,

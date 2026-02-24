@@ -1,0 +1,170 @@
+/* ===== ファンタジー石畳デザイン（privacy.html） ===== */
+
+/*
+  SVG 石畳タイル（100×72px）
+  ・目地：#1c1408（暗い茶黒）
+  ・Row1：石 x=3〜47, x=53〜97（上段）
+  ・Row2：石 x=-19〜25, x=28〜72, x=78〜122（オフセット下段）
+  ・各石の上部に薄いハイライト（光沢）
+*/
+.cobble-frame {
+  max-width: 780px;
+  margin: 2rem auto 5rem;
+  position: relative;
+  padding: 22px;
+  background-color: #1c1408;
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='72' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='100' height='72' fill='%231c1408'/%3E%3Crect x='3' y='3' width='44' height='30' rx='3' fill='%23564e3e'/%3E%3Crect x='3' y='5' width='40' height='5' rx='2' fill='%236a6050' opacity='.28'/%3E%3Crect x='53' y='3' width='44' height='30' rx='3' fill='%234e4636'/%3E%3Crect x='53' y='5' width='40' height='5' rx='2' fill='%23625a48' opacity='.28'/%3E%3Crect x='-19' y='39' width='44' height='30' rx='3' fill='%23524a3a'/%3E%3Crect x='28' y='39' width='44' height='30' rx='3' fill='%235a5240'/%3E%3Crect x='28' y='41' width='40' height='5' rx='2' fill='%236e6658' opacity='.28'/%3E%3Crect x='78' y='39' width='44' height='30' rx='3' fill='%234c4432'/%3E%3Crect x='78' y='41' width='40' height='5' rx='2' fill='%23606050' opacity='.28'/%3E%3C/svg%3E");
+  background-size: 100px 72px;
+  box-shadow:
+    0 12px 55px rgba(0, 0, 0, 0.97),
+    inset 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* 石畳の表面に差し込む魔法の光（外枠） */
+.cobble-frame::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    rgba(40, 65, 130, 0.10) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* 中央の埋め込み刻み板（石畳に刻まれた碑文パネル） */
+.cobble-inner {
+  position: relative;
+  padding: 3rem 3.5rem;
+  background:
+    radial-gradient(ellipse at 50% 0%,   rgba(40, 65, 130, 0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 100%, rgba(40, 65, 130, 0.05) 0%, transparent 50%),
+    linear-gradient(155deg, #1e1a12 0%, #121008 45%, #1c1810 100%);
+  border: 3px solid #2e2818;
+  box-shadow:
+    /* 石畳面より沈み込んだ凹み感 */
+    inset 0 3px 8px rgba(0, 0, 0, 0.8),
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    /* 魔法の淡い発光 */
+    inset 0 0 60px rgba(30, 50, 110, 0.10),
+    /* 縁の石の突出 */
+    0 -2px 0 #3a3220,
+    0  2px 0 #100e08;
+}
+
+.cobble-inner h1 {
+  font-size: 1.6rem;
+  color: #d8c080;
+  text-align: center;
+  letter-spacing: 0.12em;
+  margin-bottom: 0.4rem;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid rgba(200, 170, 80, 0.18);
+  text-shadow:
+    0 -1px 0 rgba(0, 0, 0, 0.9),
+    0  1px 3px rgba(0, 0, 0, 0.7),
+    0  0  12px rgba(200, 170, 80, 0.2);
+}
+
+/* 石畳の目地区切り（セクション間） */
+.cobble-inner h2 {
+  font-size: 0.92rem;
+  color: #c8b070;
+  letter-spacing: 0.1em;
+  margin: 2rem 0 0.6rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid rgba(200, 170, 80, 0.12);
+  text-shadow:
+    0 -1px 0 rgba(0, 0, 0, 0.9),
+    0  1px 3px rgba(0, 0, 0, 0.7),
+    0  0  8px rgba(200, 170, 80, 0.15);
+}
+
+/* 小石アイコン */
+.cobble-inner h2::before {
+  content: '◆ ';
+  font-size: 0.55rem;
+  color: rgba(200, 170, 80, 0.45);
+  vertical-align: middle;
+}
+
+.cobble-inner .last-updated {
+  text-align: center;
+  font-size: 0.76rem;
+  color: #5e5438;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+.cobble-inner p {
+  line-height: 1.9;
+  color: #9a8c68;
+  margin-bottom: 0.8rem;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+.cobble-inner ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.cobble-inner ul li {
+  line-height: 1.9;
+  color: #9a8c68;
+  padding-left: 1.4rem;
+  position: relative;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7);
+}
+
+/* 目地の小石 */
+.cobble-inner ul li::before {
+  content: '▪';
+  position: absolute;
+  left: 0;
+  color: #4a4028;
+  font-size: 0.8rem;
+}
+
+.cobble-inner a:not(.back-link) {
+  color: #a09050;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cobble-inner a:not(.back-link):hover {
+  color: #c8b068;
+}
+
+/* 戻るボタン：石畳に埋まった銘石風 */
+.cobble-inner .back-link {
+  background: linear-gradient(to bottom, #2e2818, #1e1a0e);
+  color: #b09858;
+  border: 1px solid #3e3420;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+  box-shadow:
+    2px 2px 0 #0c0a04,
+    3px 3px 10px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 rgba(200, 170, 80, 0.08);
+}
+
+.cobble-inner .back-link:hover {
+  background: linear-gradient(to bottom, #3e3820, #28221a);
+  color: #d4b870;
+  border-color: #5a4e28;
+  box-shadow:
+    1px 1px 0 #0c0a04,
+    2px 2px 8px rgba(0, 0, 0, 0.7);
+  transform: translateY(1px);
+}
+
+@media (max-width: 600px) {
+  .cobble-frame {
+    padding: 14px;
+  }
+
+  .cobble-inner {
+    padding: 2rem 1.4rem;
+  }
+}
