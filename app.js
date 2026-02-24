@@ -22,17 +22,13 @@
     y2026_:     'date%3E%3D2026-01-01'
   };
 
-  var BASIC_LAND_URL = API_BASE + '?q=t%3Abasic' + SET_FILTERS + QUERY_SUFFIX;
-  var TOKEN_URL      = API_BASE + '?q=%28is%3Atoken+OR+t%3Aemblem%29' + SET_FILTERS + QUERY_SUFFIX;
+  var BASIC_LAND_URL    = API_BASE + '?q=t%3Abasic' + SET_FILTERS + QUERY_SUFFIX;
+  var TOKEN_URL         = API_BASE + '?q=%28is%3Atoken+OR+t%3Aemblem%29' + SET_FILTERS + QUERY_SUFFIX;
   // Scryfall API は foil 価格でのソート/フィルタ不可。全ページ走査してクライアント側で判定する
   var FOIL_COMMON_URL   = API_BASE + '?q=is%3Afoil+r%3Acommon'   + QUERY_FILTERS + '&order=usd&dir=desc&unique=prints';
   var FOIL_UNCOMMON_URL = API_BASE + '?q=is%3Afoil+r%3Auncommon' + QUERY_FILTERS + '&order=usd&dir=desc&unique=prints';
 
-  var RATE_LIMIT_DELAY   = 100; // ms
-  var MIN_PRICE_COMMON   = 0.80;
-  var MIN_PRICE_UNCOMMON = 2.50;
-  var MIN_PRICE_SPECIAL  = 2.50;
-  var MIN_PRICE_FOIL     = 10.00;
+  var RATE_LIMIT_DELAY = 100; // ms
 
   var EXCLUDED_SETS = [
     'Foreign Black Border',
@@ -72,6 +68,7 @@
   ];
   var EXCLUDED_PREFIXES = ['Duel Decks:', 'Duel Decks Anthology:', 'Archenemy:'];
 
+  // フォーマット別 URL 生成
   function buildUrl(format, rarity) {
     return API_BASE + '?q=r%3A' + rarity + QUERY_FILTERS + '+' + FORMATS[format] + QUERY_SUFFIX;
   }
@@ -83,47 +80,53 @@
   var ratesFetched = false;
 
   // ===== DOM要素 =====
-  var cardGrid           = document.getElementById('card-grid');
-  var setNav             = document.getElementById('set-nav');
-  var loadingEl          = document.getElementById('loading');
-  var backToTopBtn       = document.getElementById('back-to-top');
-  var errorEl            = document.getElementById('error-message');
-  var endMessageEl       = document.getElementById('end-message');
-  var commonThresholdEl        = document.getElementById('common-threshold');
-  var uncommonThresholdEl      = document.getElementById('uncommon-threshold');
-  var basicLandThresholdEl          = document.getElementById('basic-land-threshold');
-  var tokenThresholdEl              = document.getElementById('token-threshold');
-  var foilCommonThresholdEl         = document.getElementById('foil-common-threshold');
-  var foilUncommonThresholdEl       = document.getElementById('foil-uncommon-threshold');
-  var commonThresholdLabelEl        = document.getElementById('common-threshold-label');
-  var uncommonThresholdLabelEl      = document.getElementById('uncommon-threshold-label');
-  var basicLandThresholdLabelEl     = document.getElementById('basic-land-threshold-label');
-  var tokenThresholdLabelEl         = document.getElementById('token-threshold-label');
-  var foilCommonThresholdLabelEl    = document.getElementById('foil-common-threshold-label');
-  var foilUncommonThresholdLabelEl  = document.getElementById('foil-uncommon-threshold-label');
-  var currencySelectEl         = document.getElementById('currency-select');
-  var cardLinkSelectEl         = document.getElementById('card-link-select');
+  var cardGrid     = document.getElementById('card-grid');
+  var setNav       = document.getElementById('set-nav');
+  var loadingEl    = document.getElementById('loading');
+  var backToTopBtn = document.getElementById('back-to-top');
+  var errorEl      = document.getElementById('error-message');
+  var endMessageEl = document.getElementById('end-message');
+  var currencySelectEl = document.getElementById('currency-select');
+  var cardLinkSelectEl = document.getElementById('card-link-select');
 
-  function getCommonThreshold()    { return parseFloat(commonThresholdEl.value); }
-  function getUncommonThreshold()  { return parseFloat(uncommonThresholdEl.value); }
-  function getBasicLandThreshold()    { return parseFloat(basicLandThresholdEl.value); }
-  function getTokenThreshold()        { return parseFloat(tokenThresholdEl.value); }
-  function getFoilCommonThreshold()   { return parseFloat(foilCommonThresholdEl.value); }
-  function getFoilUncommonThreshold() { return parseFloat(foilUncommonThresholdEl.value); }
+  var thresholdEls = {
+    common:      document.getElementById('common-threshold'),
+    uncommon:    document.getElementById('uncommon-threshold'),
+    basicLand:   document.getElementById('basic-land-threshold'),
+    token:       document.getElementById('token-threshold'),
+    foilCommon:  document.getElementById('foil-common-threshold'),
+    foilUncommon: document.getElementById('foil-uncommon-threshold')
+  };
+
+  var thresholdLabelEls = {
+    common:      document.getElementById('common-threshold-label'),
+    uncommon:    document.getElementById('uncommon-threshold-label'),
+    basicLand:   document.getElementById('basic-land-threshold-label'),
+    token:       document.getElementById('token-threshold-label'),
+    foilCommon:  document.getElementById('foil-common-threshold-label'),
+    foilUncommon: document.getElementById('foil-uncommon-threshold-label')
+  };
+
+  // タブごとに表示する threshold キーの対応表
+  var THRESHOLD_VISIBILITY = {
+    basic_land: ['basicLand'],
+    token:      ['token'],
+    foil:       ['foilCommon', 'foilUncommon']
+  };
+
+  function threshold(key) { return parseFloat(thresholdEls[key].value); }
+  function getCurrency()  { return currencySelectEl.value; }
+
+  // ===== threshold 表示切り替え =====
 
   function updateThresholdVisibility(format) {
-    var isBasicLand = format === 'basic_land';
-    var isToken     = format === 'token';
-    var isFoil      = format === 'foil';
-    var showCommonUncommon = !isBasicLand && !isToken && !isFoil;
-    commonThresholdLabelEl.classList.toggle('hidden', !showCommonUncommon);
-    uncommonThresholdLabelEl.classList.toggle('hidden', !showCommonUncommon);
-    basicLandThresholdLabelEl.classList.toggle('hidden', !isBasicLand);
-    tokenThresholdLabelEl.classList.toggle('hidden', !isToken);
-    foilCommonThresholdLabelEl.classList.toggle('hidden', !isFoil);
-    foilUncommonThresholdLabelEl.classList.toggle('hidden', !isFoil);
+    var visibleKeys = THRESHOLD_VISIBILITY[format] || ['common', 'uncommon'];
+    Object.keys(thresholdLabelEls).forEach(function (key) {
+      thresholdLabelEls[key].classList.toggle('hidden', visibleKeys.indexOf(key) === -1);
+    });
   }
-  function getCurrency()          { return currencySelectEl.value; }
+
+  // ===== カードリンク =====
 
   function getCardLinkUrl(name) {
     var encoded = encodeURIComponent(name);
@@ -354,20 +357,12 @@
     return EXCLUDED_PREFIXES.some(function (p) { return card.set_name.indexOf(p) === 0; });
   }
 
-  function getFoilDisplayPrice(prices, priceKey) {
-    if (!prices) return null;
-    var usdFoil = prices[priceKey];
-    if (usdFoil) return '$' + parseFloat(usdFoil).toFixed(2);
-    if (prices.eur_foil) return '€' + parseFloat(prices.eur_foil).toFixed(2);
-    return null;
-  }
-
   /**
    * @param {string}   url
    * @param {number}   minPrice
    * @param {number}   fetchId
    * @param {function} onComplete
-   * @param {string}   [priceKey='usd']   フィルタ・表示に使う価格フィールド
+   * @param {string}   [priceKey='usd']    フィルタ・表示に使う価格フィールド
    * @param {boolean}  [noEarlyStop=false] true のとき価格での打ち切りを行わず全ページ走査する
    */
   function fetchChain(url, minPrice, fetchId, onComplete, priceKey, noEarlyStop) {
@@ -455,28 +450,46 @@
     fetchChain(url, minPrice, fetchId, function () { completeFetch(fetchId); });
   }
 
-  function startFoilFetch() {
+  // 2段階 fetch（common→uncommon など）の共通パターン
+  function startFetchPair(url1, price1, url2, price2, priceKey, noEarlyStop) {
     var fetchId = beginFetch();
-    fetchChain(FOIL_COMMON_URL, getFoilCommonThreshold(), fetchId, function () {
+    fetchChain(url1, price1, fetchId, function () {
       if (fetchId !== currentFetchId) return;
       sleep(RATE_LIMIT_DELAY).then(function () {
-        fetchChain(FOIL_UNCOMMON_URL, getFoilUncommonThreshold(), fetchId, function () {
+        fetchChain(url2, price2, fetchId, function () {
           completeFetch(fetchId);
-        }, 'usd_foil', true);
+        }, priceKey, noEarlyStop);
       });
-    }, 'usd_foil', true);
+    }, priceKey, noEarlyStop);
   }
 
   function startFetching(format) {
-    var fetchId = beginFetch();
-    fetchChain(buildUrl(format, 'common'), getCommonThreshold(), fetchId, function () {
-      if (fetchId !== currentFetchId) return;
-      sleep(RATE_LIMIT_DELAY).then(function () {
-        fetchChain(buildUrl(format, 'uncommon'), getUncommonThreshold(), fetchId, function () {
-          completeFetch(fetchId);
-        });
-      });
-    });
+    startFetchPair(
+      buildUrl(format, 'common'),   threshold('common'),
+      buildUrl(format, 'uncommon'), threshold('uncommon')
+    );
+  }
+
+  function startFoilFetch() {
+    startFetchPair(
+      FOIL_COMMON_URL,   threshold('foilCommon'),
+      FOIL_UNCOMMON_URL, threshold('foilUncommon'),
+      'usd_foil', true
+    );
+  }
+
+  // ===== タブ実行 =====
+
+  function runTab(format) {
+    if (format === 'basic_land') {
+      startSingleFetch(BASIC_LAND_URL, threshold('basicLand'));
+    } else if (format === 'token') {
+      startSingleFetch(TOKEN_URL, threshold('token'));
+    } else if (format === 'foil') {
+      startFoilFetch();
+    } else {
+      startFetching(format);
+    }
   }
 
   // ===== イベントリスナー =====
@@ -487,49 +500,16 @@
       if (btn.classList.contains('active')) return;
       tabBtns.forEach(function (b) { b.classList.remove('active'); });
       btn.classList.add('active');
-
       var format = btn.dataset.format;
       updateThresholdVisibility(format);
-      if (format === 'basic_land') {
-        startSingleFetch(BASIC_LAND_URL, getBasicLandThreshold());
-      } else if (format === 'token') {
-        startSingleFetch(TOKEN_URL, getTokenThreshold());
-      } else if (format === 'foil') {
-        startFoilFetch();
-      } else {
-        startFetching(format);
-      }
+      runTab(format);
     });
   });
 
-  [commonThresholdEl, uncommonThresholdEl].forEach(function (sel) {
-    sel.addEventListener('change', function () {
+  Object.keys(thresholdEls).forEach(function (key) {
+    thresholdEls[key].addEventListener('change', function () {
       var activeBtn = document.querySelector('.tab-btn.active');
-      if (!activeBtn) return;
-      var format = activeBtn.dataset.format;
-      if (format !== 'basic_land' && format !== 'token' && format !== 'foil') {
-        startFetching(format);
-      }
-    });
-  });
-
-  basicLandThresholdEl.addEventListener('change', function () {
-    var activeBtn = document.querySelector('.tab-btn.active');
-    if (!activeBtn || activeBtn.dataset.format !== 'basic_land') return;
-    startSingleFetch(BASIC_LAND_URL, getBasicLandThreshold());
-  });
-
-  tokenThresholdEl.addEventListener('change', function () {
-    var activeBtn = document.querySelector('.tab-btn.active');
-    if (!activeBtn || activeBtn.dataset.format !== 'token') return;
-    startSingleFetch(TOKEN_URL, getTokenThreshold());
-  });
-
-  [foilCommonThresholdEl, foilUncommonThresholdEl].forEach(function (sel) {
-    sel.addEventListener('change', function () {
-      var activeBtn = document.querySelector('.tab-btn.active');
-      if (!activeBtn || activeBtn.dataset.format !== 'foil') return;
-      startFoilFetch();
+      if (activeBtn) runTab(activeBtn.dataset.format);
     });
   });
 
