@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お問い合わせ | MTG Top Common & Uncommon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .static-page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .static-page h1 {
+      font-size: 1.8rem;
+      color: #d4a017;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #8b1a1a;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .static-page p {
+      line-height: 1.8;
+      color: #c0b090;
+      margin-bottom: 1rem;
+    }
+
+    .contact-form {
+      margin-top: 2rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .form-group label {
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      color: #d4a017;
+      font-weight: 600;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      background: linear-gradient(to bottom, #2b1a0e, #1a0e05);
+      color: #e0d0b0;
+      border: 1px solid #4a2e15;
+      border-radius: 4px;
+      padding: 0.6rem 0.8rem;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 0.95rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: #d4a017;
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 8px rgba(212, 160, 23, 0.4);
+      outline: none;
+    }
+
+    .form-group textarea {
+      height: 160px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      align-self: flex-start;
+      background: linear-gradient(to bottom, #8b1a1a, #4a0e0e);
+      color: #e0d0b0;
+      border: 2px solid #d4a017;
+      padding: 0.8rem 2.5rem;
+      font-size: 1rem;
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      border-radius: 4px;
+      cursor: pointer;
+      letter-spacing: 0.06em;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.7);
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9), 0 0 15px rgba(212, 160, 23, 0.5);
+      color: #fff;
+      border-color: #ffe699;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(to bottom, #3d2314, #2b1a0e);
+      color: #d4a017;
+      border: 1px solid #8b1a1a;
+      border-radius: 4px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      color: #fff;
+      border-color: #d4a017;
+      background: linear-gradient(to bottom, #4a2e15, #2b1a0e);
+    }
+
+    .success-message {
+      display: none;
+      background: rgba(43, 26, 14, 0.8);
+      border: 1px solid #d4a017;
+      border-left: 6px solid #d4a017;
+      border-radius: 6px;
+      padding: 1.2rem 1.5rem;
+      color: #d4a017;
+      font-family: 'Cinzel', serif;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="static-page">
+      <h1>お問い合わせ</h1>
+
+      <p>
+        バグの報告、掲載データへのご指摘、その他本サイトに関するご意見・ご要望がございましたら、
+        下記フォームよりお気軽にお問い合わせください。
+      </p>
+
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/xwvnwgrb" method="POST">
+        <div class="form-group">
+          <label for="email">メールアドレス</label>
+          <input type="email" id="email" name="email" placeholder="example@example.com" required>
+        </div>
+        <div class="form-group">
+          <label for="message">メッセージ</label>
+          <textarea id="message" name="message" placeholder="お問い合わせ内容をご記入ください" required></textarea>
+        </div>
+        <button type="submit" class="submit-btn">送信する</button>
+      </form>
+
+      <div class="success-message" id="success-message">
+        お問い合わせを受け付けました。ありがとうございます。
+      </div>
+
+      <a href="index.html" class="back-link">← トップページへ戻る</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>カードデータ提供: <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a></p>
+    <nav class="footer-nav">
+      <a href="about.html">このサイトについて</a>
+      <a href="contact.html">お問い合わせ</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </nav>
+  </footer>
+
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      this.style.display = 'none';
+      document.getElementById('success-message').style.display = 'block';
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>このサイトについて | MTG Top Common & Uncommon</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .static-page {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 5rem;
+    }
+
+    .static-page h1 {
+      font-size: 1.8rem;
+      color: #d4a017;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 2px solid #8b1a1a;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    }
+
+    .static-page h2 {
+      font-size: 1.2rem;
+      color: #d4a017;
+      margin: 2rem 0 0.8rem;
+    }
+
+    .static-page p {
+      line-height: 1.8;
+      color: #c0b090;
+      margin-bottom: 1rem;
+    }
+
+    .static-page ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    .static-page ul li {
+      line-height: 1.8;
+      color: #c0b090;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .static-page ul li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: #8b1a1a;
+      font-size: 0.7rem;
+      top: 0.35rem;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 2rem;
+      padding: 0.6rem 1.5rem;
+      background: linear-gradient(to bottom, #3d2314, #2b1a0e);
+      color: #d4a017;
+      border: 1px solid #8b1a1a;
+      border-radius: 4px;
+      font-family: 'Cinzel', serif;
+      font-size: 0.9rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .back-link:hover {
+      color: #fff;
+      border-color: #d4a017;
+      background: linear-gradient(to bottom, #4a2e15, #2b1a0e);
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <div class="static-page">
+      <h1>このサイトについて</h1>
+
+      <h2>概要</h2>
+      <p>
+        このサイトは、Magic: The Gathering（マジック：ザ・ギャザリング）のコモン・アンコモンカードの中から、
+        一定の価格以上の高額カードを年代別・セット別に一覧表示するサービスです。
+      </p>
+
+      <h2>主な機能</h2>
+      <ul>
+        <li>年代別タブによるカードの絞り込み表示（1995〜現在）</li>
+        <li>コモン・アンコモンの価格閾値によるフィルタリング</li>
+        <li>Basic Land、Token、Foilカードの別途一覧表示</li>
+        <li>USD / JPY / EUR への通貨変換</li>
+        <li>hareruya / cardkingdom / tcgplayer へのカード購入リンク</li>
+      </ul>
+
+      <h2>データソース</h2>
+      <p>
+        カードデータおよび価格情報は <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a> のAPIを利用しています。
+        価格はリアルタイムで取得されるため、実際の市場価格と若干異なる場合があります。
+      </p>
+      <p>
+        為替レートは <a href="https://www.frankfurter.app" target="_blank" rel="noopener noreferrer">Frankfurter</a> のAPIを利用しています。
+      </p>
+
+      <h2>免責事項</h2>
+      <p>
+        本サイトに掲載されている価格情報は参考値です。
+        実際の購入・売却の際は各ショップの公式サイトにてご確認ください。
+        本サイトの情報を利用したことによる損害について、当サイトは一切の責任を負いません。
+      </p>
+
+      <a href="index.html" class="back-link">← トップページへ戻る</a>
+    </div>
+  </main>
+
+  <footer>
+    <p>カードデータ提供: <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a></p>
+    <nav class="footer-nav">
+      <a href="about.html">このサイトについて</a>
+      <a href="contact.html">お問い合わせ</a>
+      <a href="privacy.html">プライバシーポリシー</a>
+    </nav>
+  </footer>
+</body>
+
+</html>

@@ -555,6 +555,17 @@ footer a:hover {
   text-decoration: underline;
 }
 
+.footer-nav {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #2b1a0e;
+  font-size: 0.85rem;
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   main {
