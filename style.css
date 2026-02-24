@@ -172,9 +172,9 @@ main {
 }
 
 .price-threshold-bar select {
-  background: linear-gradient(to bottom, #2b1a0e, #1a0e05);
-  color: #e0d0b0;
-  border: 1px solid #8b1a1a;
+  background: linear-gradient(to bottom, #3a2010, #2b1a0e);
+  color: #e8d8b0;
+  border: 1px solid #c04040;
   border-radius: 4px;
   padding: 0.3rem 0.6rem;
   font-family: 'Cinzel', serif;
@@ -189,6 +189,11 @@ main {
   border-color: #d4a017;
   box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 8px rgba(212, 160, 23, 0.4);
   outline: none;
+}
+
+.price-threshold-bar select option {
+  background-color: #2b1a0e;
+  color: #e8d8b0;
 }
 
 /* ===== Card Grid ===== */
@@ -545,7 +550,7 @@ footer {
 }
 
 footer a {
-  color: #1e5fa8;
+  color: #a08c70;
   text-decoration: none;
   transition: color 0.2s;
 }
