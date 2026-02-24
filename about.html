@@ -10,45 +10,179 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== Merchant Scroll 風レイアウト ===== */
+    .scroll-wrapper {
+      max-width: 700px;
+      margin: 2rem auto 5rem;
+      position: relative;
+      /* ローラー分の余白 */
+      padding: 21px 0;
+    }
+
+    /* 羊皮紙本体 */
+    .scroll-body {
+      position: relative;
+      padding: 2.8rem 3.5rem;
+      background:
+        radial-gradient(ellipse at 18% 8%, rgba(255, 250, 220, 0.65) 0%, transparent 48%),
+        radial-gradient(ellipse at 82% 92%, rgba(190, 148, 68, 0.28) 0%, transparent 48%),
+        linear-gradient(172deg, #f4e8c0 0%, #ecd8a0 22%, #f0e2ba 52%, #e6d69a 78%, #eedaa8 100%);
+      border-left: 3px solid #8a6030;
+      border-right: 3px solid #8a6030;
+      box-shadow:
+        inset 14px 0 28px rgba(100, 60, 8, 0.14),
+        inset -14px 0 28px rgba(100, 60, 8, 0.14),
+        0 8px 40px rgba(0, 0, 0, 0.88);
+    }
+
+    /* 巻物ローラー（上下共通） */
+    .scroll-roller {
+      position: absolute;
+      left: -15px;
+      right: -15px;
+      height: 42px;
+      border-radius: 21px;
+      background: linear-gradient(to bottom,
+          #1c0e04 0%,
+          #6a4820 14%,
+          #b88038 30%,
+          #e8b850 44%,
+          #f8d068 50%,
+          #e8b850 56%,
+          #b88038 70%,
+          #6a4820 86%,
+          #1c0e04 100%);
+      box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.82),
+        inset 0 2px 5px rgba(255, 228, 120, 0.42),
+        inset 0 -2px 5px rgba(0, 0, 0, 0.45);
+      z-index: 3;
+    }
+
+    .scroll-roller.top { top: 0; }
+    .scroll-roller.bottom { bottom: 0; }
+
+    /* 見出し（青：青のカード色） */
+    .scroll-body h1 {
+      font-size: 1.75rem;
+      color: #163a68;
+      text-align: center;
+      margin-bottom: 1.6rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 2px solid #9a7030;
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+    }
+
+    .scroll-body h2 {
+      font-size: 1.05rem;
+      color: #163a68;
+      margin: 1.8rem 0 0.5rem;
+      padding-left: 0.6rem;
+      border-left: 3px solid #9a7030;
+    }
+
+    /* 本文（羊皮紙上の暗い茶色） */
+    .scroll-body p {
+      line-height: 1.9;
+      color: #281806;
+      margin-bottom: 0.8rem;
+    }
+
+    .scroll-body ul {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 1rem;
+    }
+
+    .scroll-body ul li {
+      line-height: 1.9;
+      color: #281806;
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .scroll-body ul li::before {
+      content: '◆';
+      position: absolute;
+      left: 0;
+      color: #9a7030;
+      font-size: 0.65rem;
+      top: 0.38rem;
+    }
+
+    /* 本文内リンク */
+    .scroll-body a:not(.back-link) {
+      color: #163a68;
+      text-decoration: underline;
+    }
+
+    .scroll-body a:not(.back-link):hover {
+      color: #2a5a9a;
+    }
+
+    /* 戻るボタン（巻物テーマの青） */
+    .scroll-body .back-link {
+      background: linear-gradient(to bottom, #1e4a78, #0e2a48);
+      color: #e8d898;
+      border-color: #c8a040;
+    }
+
+    .scroll-body .back-link:hover {
+      background: linear-gradient(to bottom, #2a5a90, #163a60);
+      color: #fff;
+      border-color: #e8c860;
+    }
+
+    @media (max-width: 600px) {
+      .scroll-body {
+        padding: 2rem 1.5rem;
+      }
+    }
+  </style>
 </head>
 
 <body>
   <main>
-    <div class="static-page">
-      <h1>このサイトについて</h1>
+    <div class="scroll-wrapper">
+      <div class="scroll-roller top"></div>
+      <div class="scroll-body">
+        <h1>このサイトについて</h1>
 
-      <h2>概要</h2>
-      <p>
-        このサイトは、Magic: The Gathering（マジック：ザ・ギャザリング）のコモン・アンコモンカードの中から、
-        一定の価格以上の高額カードを年代別・セット別に一覧表示するサービスです。
-      </p>
+        <h2>概要</h2>
+        <p>
+          このサイトは、Magic: The Gathering（マジック：ザ・ギャザリング）のコモン・アンコモンカードの中から、
+          一定の価格以上の高額カードを年代別・セット別に一覧表示するサービスです。
+        </p>
 
-      <h2>主な機能</h2>
-      <ul>
-        <li>年代別タブによるカードの絞り込み表示（1995〜現在）</li>
-        <li>コモン・アンコモンの価格閾値によるフィルタリング</li>
-        <li>Basic Land、Token、Foilカードの別途一覧表示</li>
-        <li>USD / JPY / EUR への通貨変換</li>
-        <li>hareruya / cardkingdom / tcgplayer へのカード購入リンク</li>
-      </ul>
+        <h2>主な機能</h2>
+        <ul>
+          <li>年代別タブによるカードの絞り込み表示（1995〜現在）</li>
+          <li>コモン・アンコモンの価格閾値によるフィルタリング</li>
+          <li>Basic Land、Token、Foilカードの別途一覧表示</li>
+          <li>USD / JPY / EUR への通貨変換</li>
+          <li>hareruya / cardkingdom / tcgplayer へのカード購入リンク</li>
+        </ul>
 
-      <h2>データソース</h2>
-      <p>
-        カードデータおよび価格情報は <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a> のAPIを利用しています。
-        価格はリアルタイムで取得されるため、実際の市場価格と若干異なる場合があります。
-      </p>
-      <p>
-        為替レートは <a href="https://www.frankfurter.app" target="_blank" rel="noopener noreferrer">Frankfurter</a> のAPIを利用しています。
-      </p>
+        <h2>データソース</h2>
+        <p>
+          カードデータおよび価格情報は <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a> のAPIを利用しています。
+          価格はリアルタイムで取得されるため、実際の市場価格と若干異なる場合があります。
+        </p>
+        <p>
+          為替レートは <a href="https://www.frankfurter.app" target="_blank" rel="noopener noreferrer">Frankfurter</a> のAPIを利用しています。
+        </p>
 
-      <h2>免責事項</h2>
-      <p>
-        本サイトに掲載されている価格情報は参考値です。
-        実際の購入・売却の際は各ショップの公式サイトにてご確認ください。
-        本サイトの情報を利用したことによる損害について、当サイトは一切の責任を負いません。
-      </p>
+        <h2>免責事項</h2>
+        <p>
+          本サイトに掲載されている価格情報は参考値です。
+          実際の購入・売却の際は各ショップの公式サイトにてご確認ください。
+          本サイトの情報を利用したことによる損害について、当サイトは一切の責任を負いません。
+        </p>
 
-      <a href="index.html" class="back-link">← トップページへ戻る</a>
+        <a href="index.html" class="back-link">← トップページへ戻る</a>
+      </div>
+      <div class="scroll-roller bottom"></div>
     </div>
   </main>
 
