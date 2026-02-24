@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magic: The Gathering 高額コモン・アンコモンカード一覧</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=MedievalSharp&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <main>
+    <div class="top-bar">
+      <div class="header-compact">
+        <h1>Magic: The Gathering Top Common & Uncommon</h1>
+      </div>
+      <nav class="tab-bar" role="tablist">
+        <button class="tab-btn active" data-format="y1993_2003" role="tab">1995〜2003</button>
+        <button class="tab-btn" data-format="y2004_2014" role="tab">2004〜2014</button>
+        <button class="tab-btn" data-format="y2015_2020" role="tab">2015〜2020</button>
+        <button class="tab-btn" data-format="y2021_2022" role="tab">2021〜2022</button>
+        <button class="tab-btn" data-format="y2023_2025" role="tab">2023〜2025</button>
+        <button class="tab-btn" data-format="y2026_" role="tab">2026〜</button>
+        <button class="tab-btn" data-format="basic_land" role="tab">Basic Land</button>
+        <button class="tab-btn" data-format="token" role="tab">Token</button>
+        <button class="tab-btn" data-format="foil" role="tab">Foil $10+</button>
+      </nav>
+      <nav id="set-nav" class="set-nav hidden"></nav>
+      <div class="price-threshold-bar">
+        <label>
+          Common Price Threshold:
+          <select id="common-threshold">
+            <option value="0.80" selected>$0.80</option>
+            <option value="0.90">$0.90</option>
+            <option value="1.00">$1.00</option>
+            <option value="1.10">$1.10</option>
+            <option value="1.20">$1.20</option>
+            <option value="1.30">$1.30</option>
+            <option value="1.40">$1.40</option>
+            <option value="1.50">$1.50</option>
+            <option value="1.60">$1.60</option>
+            <option value="1.70">$1.70</option>
+            <option value="1.80">$1.80</option>
+            <option value="1.90">$1.90</option>
+            <option value="2.00">$2.00</option>
+          </select>
+        </label>
+        <label>
+          Uncommon Price Threshold:
+          <select id="uncommon-threshold">
+            <option value="2.50" selected>$2.50</option>
+            <option value="2.60">$2.60</option>
+            <option value="2.70">$2.70</option>
+            <option value="2.80">$2.80</option>
+            <option value="2.90">$2.90</option>
+            <option value="3.00">$3.00</option>
+            <option value="3.10">$3.10</option>
+            <option value="3.20">$3.20</option>
+            <option value="3.30">$3.30</option>
+            <option value="3.40">$3.40</option>
+            <option value="3.50">$3.50</option>
+            <option value="3.60">$3.60</option>
+            <option value="3.70">$3.70</option>
+            <option value="3.80">$3.80</option>
+            <option value="3.90">$3.90</option>
+            <option value="4.00">$4.00</option>
+          </select>
+        </label>
+        <label>
+          Currency:
+          <select id="currency-select">
+            <option value="USD">$</option>
+            <option value="JPY">¥</option>
+            <option value="EUR">€</option>
+          </select>
+        </label>
+        <label>
+          Card Link:
+          <select id="card-link-select">
+            <option value="hareruya">hareruya</option>
+            <option value="cardkingdom">cardkingdom</option>
+            <option value="tcgplayer">tcgplayer</option>
+          </select>
+        </label>
+      </div>
+      <div id="error-message" class="error-message hidden"></div>
+      <div id="card-grid" class="card-grid"></div>
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <p>読み込み中...</p>
+      </div>
+      <div class="load-more-wrapper">
+        <button id="load-more" class="load-more-btn hidden">さらに読み込む</button>
+      </div>
+      <p id="end-message" class="end-message hidden">すべてのカードを表示しました</p>
+    </div>
+  </main>
+
+  <footer>
+    <p>カードデータ提供: <a href="https://scryfall.com" target="_blank" rel="noopener noreferrer">Scryfall</a></p>
+  </footer>
+
+  <button id="back-to-top" class="back-to-top hidden" aria-label="ページ上部へ戻る">▲</button>
+  <script src="app.js"></script>
+</body>
+
+</html>

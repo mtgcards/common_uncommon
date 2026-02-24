@@ -1,0 +1,618 @@
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1a0e05;
+  overflow-x: hidden;
+  /* Deep parchment / dark leather */
+  background-image:
+    radial-gradient(circle at center, rgba(43, 26, 14, 0.8) 0%, rgba(26, 14, 5, 1) 100%),
+    url("data:image/svg+xml,%3Csvg width='150' height='150' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='150' height='150' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
+  color: #e0d0b0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+.set-title {
+  font-family: 'Cinzel', serif;
+}
+
+/* ===== Main ===== */
+main {
+  flex: 1;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 4rem;
+}
+
+/* ===== Tab Bar (Worn leather bookmark tabs) ===== */
+.tab-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding-bottom: 0;
+  /* Removed border-bottom and margin-bottom as they are now handled by .top-bar */
+  flex: 1;
+}
+
+.tab-btn {
+  background: linear-gradient(to bottom, #3d2314, #2b1a0e);
+  color: #a08c70;
+  border: 1px solid #1a0e05;
+  border-bottom: none;
+  border-radius: 6px 6px 0 0;
+  padding: 0rem 1.6rem;
+  font-size: 1rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  margin-bottom: -4px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 5px rgba(255, 255, 255, 0.05), 0 -2px 5px rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+.tab-btn:hover {
+  color: #d4a017;
+  background: linear-gradient(to bottom, #4a2e15, #2b1a0e);
+}
+
+.tab-btn.active {
+  color: #1a0e05;
+  background: linear-gradient(135deg, #f5d78d, #d4a017, #b8860b);
+  border: 1px solid #ffeba4;
+  border-bottom: 4px solid #d4a017;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 0 12px rgba(255, 255, 255, 0.6),
+    0 -4px 20px rgba(212, 160, 23, 0.4);
+  /* Gold foil feel */
+  z-index: 2;
+}
+
+/* ===== Set Nav ===== */
+.set-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 0.4rem;
+  margin-bottom: 0.5rem;
+  padding: 0.8rem;
+  background: rgba(43, 26, 14, 0.6);
+  border: 2px solid #4a2e15;
+  border-radius: 6px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.set-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  overflow: hidden;
+  color: #e0d0b0;
+  text-decoration: none;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #8b1a1a, #5c0f0f);
+  border: 1px solid #b83a3a;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.2),
+    0 2px 4px rgba(0, 0, 0, 0.7);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.set-nav-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.set-nav-link::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  right: 2px;
+  bottom: 2px;
+  border: 1px dashed rgba(212, 160, 23, 0.4);
+  border-radius: 10px;
+  pointer-events: none;
+}
+
+.set-nav-link:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow:
+    inset 0 2px 4px rgba(255, 255, 255, 0.3),
+    0 8px 15px rgba(0, 0, 0, 0.8),
+    0 0 20px rgba(212, 160, 23, 0.5);
+  border-color: #d4a017;
+  color: #fff;
+}
+
+/* ===== Price Threshold Bar ===== */
+.price-threshold-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.8rem 1rem;
+  margin-bottom: 0.5rem;
+  background: rgba(43, 26, 14, 0.6);
+  border: 2px solid #4a2e15;
+  border-radius: 6px;
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.8);
+}
+
+.price-threshold-bar label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d4a017;
+  letter-spacing: 0.04em;
+}
+
+.price-threshold-bar select {
+  background: linear-gradient(to bottom, #2b1a0e, #1a0e05);
+  color: #e0d0b0;
+  border: 1px solid #8b1a1a;
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.price-threshold-bar select:hover,
+.price-threshold-bar select:focus {
+  border-color: #d4a017;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.6), 0 0 8px rgba(212, 160, 23, 0.4);
+  outline: none;
+}
+
+/* ===== Card Grid ===== */
+.card-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* ===== Set Section ===== */
+.set-section {
+  position: relative;
+  padding: 1.5rem;
+  background: rgba(43, 26, 14, 0.5);
+  border: 2px solid #3b2c08;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.9);
+  /* Single golden frame */
+  border-radius: 4px;
+}
+
+.set-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #d4a017;
+  padding-bottom: 0.8rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #8b1a1a;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.set-symbol {
+  width: 1.6em;
+  height: 1.6em;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 3px rgba(212, 160, 23, 0.8)) invert(80%) sepia(40%) saturate(800%) hue-rotate(350deg) brightness(110%);
+}
+
+/* ===== Set Card Grid ===== */
+.set-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1.2rem;
+}
+
+/* ===== Card ===== */
+.card {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  position: relative;
+  border: 1px solid #2b1a0e;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.3) 100%);
+  pointer-events: none;
+  z-index: 10;
+}
+
+.card.rarity-common {
+  background: #000;
+  border-color: transparent;
+}
+
+.card.rarity-uncommon {
+  background: linear-gradient(145deg, #c0c0c0, #808080);
+  border-color: #e0e0e0;
+}
+
+.card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow:
+    0 8px 20px rgba(0, 0, 0, 0.9),
+    0 0 15px rgba(30, 95, 168, 0.7);
+  /* Mana-blue glow on hover */
+  border-color: #1e5fa8;
+  z-index: 5;
+}
+
+.card-image-wrapper {
+  width: 100%;
+  aspect-ratio: 63 / 88;
+  background: #0a0a0a;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease, filter 0.5s ease;
+}
+
+.card:hover .card-image-wrapper img {
+  transform: scale(1.06);
+  filter: contrast(1.15) brightness(1.1);
+}
+
+.card-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+  font-size: 2rem;
+  font-family: 'MedievalSharp', cursive;
+  user-select: none;
+}
+
+.card-info {
+  padding: 0.6rem;
+  background: transparent;
+  position: relative;
+  z-index: 11;
+  border-top: 1px solid #222;
+}
+
+.card-name {
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.3rem;
+  line-height: 1.2;
+  font-family: 'Cinzel', serif;
+}
+
+.card.rarity-uncommon .card-name {
+  color: #1a1a1a;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+
+.card-price {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #d4a017;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.9);
+}
+
+.card.rarity-uncommon .card-price {
+  color: #8b1a1a;
+  text-shadow: 0 1px 1px rgba(255, 255, 255, 0.6);
+}
+
+.card-price.unavailable {
+  color: #888;
+  font-size: 0.8rem;
+  font-weight: 400;
+  text-shadow: none;
+}
+
+.card.rarity-uncommon .card-price.unavailable {
+  color: #444;
+}
+
+/* ===== Loading (Glowing Mana Orb) ===== */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+  padding: 5rem 1rem;
+  color: #1e5fa8;
+  font-family: 'Cinzel', serif;
+  font-size: 1.2rem;
+  text-shadow: 0 0 15px rgba(30, 95, 168, 0.9);
+}
+
+.spinner {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff 0%, #1e5fa8 25%, #1a1a1a 45%, #8b1a1a 65%, rgba(32, 128, 48, 0.9) 85%, #d4a017 100%);
+  animation: pulse-orb 2s infinite ease-in-out, spin-orb 4s infinite linear;
+  box-shadow:
+    0 0 25px rgba(255, 255, 255, 0.6),
+    0 0 50px rgba(30, 95, 168, 0.7),
+    inset 0 0 20px rgba(255, 255, 255, 0.9);
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+@keyframes pulse-orb {
+  0% {
+    transform: scale(0.9);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(30, 95, 168, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+
+  50% {
+    transform: scale(1.1);
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.9), 0 0 80px rgba(139, 26, 26, 0.9), inset 0 0 35px rgba(255, 255, 255, 1);
+  }
+
+  100% {
+    transform: scale(0.9);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.6), 0 0 40px rgba(30, 95, 168, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.6);
+  }
+}
+
+@keyframes spin-orb {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+
+/* ===== Load More ===== */
+.load-more-wrapper {
+  text-align: center;
+  padding: 4rem 0 2rem;
+}
+
+.load-more-btn {
+  background: linear-gradient(to bottom, #8b1a1a, #4a0e0e);
+  color: #e0d0b0;
+  border: 2px solid #d4a017;
+  padding: 1.1rem 4rem;
+  font-size: 1.2rem;
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  border-radius: 4px;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  transition: all 0.3s ease;
+  box-shadow:
+    0 6px 15px rgba(0, 0, 0, 0.9),
+    inset 0 0 20px rgba(212, 160, 23, 0.2);
+  text-transform: uppercase;
+  position: relative;
+  overflow: hidden;
+}
+
+.load-more-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transform: skewX(-20deg);
+  transition: 0.6s;
+}
+
+.load-more-btn:hover:not(:disabled) {
+  transform: translateY(-3px);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.95),
+    0 0 20px rgba(212, 160, 23, 0.7),
+    inset 0 0 25px rgba(212, 160, 23, 0.5);
+  color: #fff;
+  border-color: #ffe699;
+}
+
+.load-more-btn:hover:not(:disabled)::before {
+  left: 150%;
+}
+
+.load-more-btn:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.9);
+}
+
+.load-more-btn:disabled {
+  background: #2b1a0e;
+  color: #555;
+  border-color: #444;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* ===== Error ===== */
+.error-message {
+  background: rgba(43, 26, 14, 0.8);
+  border: 1px solid #8b1a1a;
+  border-left: 6px solid #8b1a1a;
+  border-radius: 6px;
+  padding: 1.8rem;
+  margin-bottom: 2.5rem;
+  color: #ff9999;
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.1rem;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.7);
+}
+
+/* ===== End Message ===== */
+.end-message {
+  text-align: center;
+  padding: 4rem;
+  color: #a08c70;
+  font-size: 1.2rem;
+  font-family: 'Cinzel', serif;
+  font-style: italic;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
+}
+
+/* ===== Back to Top ===== */
+.back-to-top {
+  position: fixed;
+  bottom: 2.5rem;
+  right: 2.5rem;
+  width: 58px;
+  height: 58px;
+  background: linear-gradient(135deg, #1e5fa8, #103868);
+  color: #d4a017;
+  border: 3px solid #d4a017;
+  border-radius: 50%;
+  font-size: 1.3rem;
+  cursor: pointer;
+  box-shadow:
+    0 6px 20px rgba(0, 0, 0, 0.7),
+    0 0 15px rgba(30, 95, 168, 0.6);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-to-top:hover {
+  transform: translateY(-6px) scale(1.1);
+  box-shadow:
+    0 10px 25px rgba(0, 0, 0, 0.9),
+    0 0 25px rgba(30, 95, 168, 0.9);
+  color: #fff;
+  border-color: #fff;
+}
+
+/* ===== Hidden ===== */
+.hidden {
+  display: none !important;
+}
+
+/* ===== Footer ===== */
+footer {
+  text-align: center;
+  padding: 2.5rem;
+  color: #888;
+  font-size: 0.95rem;
+  border-top: 2px solid #2b1a0e;
+  background: #0a0502;
+  font-family: 'Cinzel', serif;
+}
+
+footer a {
+  color: #1e5fa8;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+footer a:hover {
+  color: #d4a017;
+  text-decoration: underline;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  main {
+    padding: 1rem 0.75rem 3rem;
+  }
+
+  .tab-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.8rem;
+    letter-spacing: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .set-card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 0.8rem;
+  }
+
+  .header-compact h1 {
+    font-size: 1.2rem;
+  }
+
+  .card-name {
+    font-size: 0.8rem;
+  }
+
+  .card-price {
+    font-size: 0.9rem;
+  }
+
+  .set-title {
+    font-size: 1.1rem;
+  }
+
+  .tab-btn {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .back-to-top {
+    width: 46px;
+    height: 46px;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .set-card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1400px) {
+  .set-card-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  }
+}
