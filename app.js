@@ -25,7 +25,8 @@
   var BASIC_LAND_URL = API_BASE + '?q=t%3Abasic' + SET_FILTERS + QUERY_SUFFIX;
   var TOKEN_URL      = API_BASE + '?q=%28is%3Atoken+OR+t%3Aemblem%29' + SET_FILTERS + QUERY_SUFFIX;
   // Scryfall API は foil 価格でのソート/フィルタ不可。全ページ走査してクライアント側で判定する
-  var FOIL_URL       = API_BASE + '?q=is%3Afoil+%28r%3Acommon+OR+r%3Auncommon%29' + QUERY_FILTERS + '&order=usd&dir=desc&unique=prints';
+  var FOIL_COMMON_URL   = API_BASE + '?q=is%3Afoil+r%3Acommon'   + QUERY_FILTERS + '&order=usd&dir=desc&unique=prints';
+  var FOIL_UNCOMMON_URL = API_BASE + '?q=is%3Afoil+r%3Auncommon' + QUERY_FILTERS + '&order=usd&dir=desc&unique=prints';
 
   var RATE_LIMIT_DELAY   = 100; // ms
   var MIN_PRICE_COMMON   = 0.80;
@@ -90,28 +91,37 @@
   var endMessageEl       = document.getElementById('end-message');
   var commonThresholdEl        = document.getElementById('common-threshold');
   var uncommonThresholdEl      = document.getElementById('uncommon-threshold');
-  var basicLandThresholdEl      = document.getElementById('basic-land-threshold');
-  var tokenThresholdEl          = document.getElementById('token-threshold');
-  var commonThresholdLabelEl    = document.getElementById('common-threshold-label');
-  var uncommonThresholdLabelEl  = document.getElementById('uncommon-threshold-label');
-  var basicLandThresholdLabelEl = document.getElementById('basic-land-threshold-label');
-  var tokenThresholdLabelEl     = document.getElementById('token-threshold-label');
+  var basicLandThresholdEl          = document.getElementById('basic-land-threshold');
+  var tokenThresholdEl              = document.getElementById('token-threshold');
+  var foilCommonThresholdEl         = document.getElementById('foil-common-threshold');
+  var foilUncommonThresholdEl       = document.getElementById('foil-uncommon-threshold');
+  var commonThresholdLabelEl        = document.getElementById('common-threshold-label');
+  var uncommonThresholdLabelEl      = document.getElementById('uncommon-threshold-label');
+  var basicLandThresholdLabelEl     = document.getElementById('basic-land-threshold-label');
+  var tokenThresholdLabelEl         = document.getElementById('token-threshold-label');
+  var foilCommonThresholdLabelEl    = document.getElementById('foil-common-threshold-label');
+  var foilUncommonThresholdLabelEl  = document.getElementById('foil-uncommon-threshold-label');
   var currencySelectEl         = document.getElementById('currency-select');
   var cardLinkSelectEl         = document.getElementById('card-link-select');
 
   function getCommonThreshold()    { return parseFloat(commonThresholdEl.value); }
   function getUncommonThreshold()  { return parseFloat(uncommonThresholdEl.value); }
-  function getBasicLandThreshold() { return parseFloat(basicLandThresholdEl.value); }
-  function getTokenThreshold()     { return parseFloat(tokenThresholdEl.value); }
+  function getBasicLandThreshold()    { return parseFloat(basicLandThresholdEl.value); }
+  function getTokenThreshold()        { return parseFloat(tokenThresholdEl.value); }
+  function getFoilCommonThreshold()   { return parseFloat(foilCommonThresholdEl.value); }
+  function getFoilUncommonThreshold() { return parseFloat(foilUncommonThresholdEl.value); }
 
   function updateThresholdVisibility(format) {
     var isBasicLand = format === 'basic_land';
     var isToken     = format === 'token';
-    var showCommonUncommon = !isBasicLand && !isToken;
+    var isFoil      = format === 'foil';
+    var showCommonUncommon = !isBasicLand && !isToken && !isFoil;
     commonThresholdLabelEl.classList.toggle('hidden', !showCommonUncommon);
     uncommonThresholdLabelEl.classList.toggle('hidden', !showCommonUncommon);
     basicLandThresholdLabelEl.classList.toggle('hidden', !isBasicLand);
     tokenThresholdLabelEl.classList.toggle('hidden', !isToken);
+    foilCommonThresholdLabelEl.classList.toggle('hidden', !isFoil);
+    foilUncommonThresholdLabelEl.classList.toggle('hidden', !isFoil);
   }
   function getCurrency()          { return currencySelectEl.value; }
 
@@ -447,8 +457,13 @@
 
   function startFoilFetch() {
     var fetchId = beginFetch();
-    fetchChain(FOIL_URL, MIN_PRICE_FOIL, fetchId, function () {
-      completeFetch(fetchId);
+    fetchChain(FOIL_COMMON_URL, getFoilCommonThreshold(), fetchId, function () {
+      if (fetchId !== currentFetchId) return;
+      sleep(RATE_LIMIT_DELAY).then(function () {
+        fetchChain(FOIL_UNCOMMON_URL, getFoilUncommonThreshold(), fetchId, function () {
+          completeFetch(fetchId);
+        }, 'usd_foil', true);
+      });
     }, 'usd_foil', true);
   }
 
@@ -492,9 +507,7 @@
       var activeBtn = document.querySelector('.tab-btn.active');
       if (!activeBtn) return;
       var format = activeBtn.dataset.format;
-      if (format === 'foil') {
-        startFoilFetch();
-      } else if (format !== 'basic_land' && format !== 'token') {
+      if (format !== 'basic_land' && format !== 'token' && format !== 'foil') {
         startFetching(format);
       }
     });
@@ -510,6 +523,14 @@
     var activeBtn = document.querySelector('.tab-btn.active');
     if (!activeBtn || activeBtn.dataset.format !== 'token') return;
     startSingleFetch(TOKEN_URL, getTokenThreshold());
+  });
+
+  [foilCommonThresholdEl, foilUncommonThresholdEl].forEach(function (sel) {
+    sel.addEventListener('change', function () {
+      var activeBtn = document.querySelector('.tab-btn.active');
+      if (!activeBtn || activeBtn.dataset.format !== 'foil') return;
+      startFoilFetch();
+    });
   });
 
   window.addEventListener('scroll', function () {

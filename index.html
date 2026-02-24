@@ -27,7 +27,7 @@
         <button class="tab-btn" data-format="y2026_" role="tab">2026〜</button>
         <button class="tab-btn" data-format="basic_land" role="tab">Basic Land</button>
         <button class="tab-btn" data-format="token" role="tab">Token</button>
-        <button class="tab-btn" data-format="foil" role="tab">Foil $10+</button>
+        <button class="tab-btn" data-format="foil" role="tab">Foil</button>
       </nav>
       <nav id="set-nav" class="set-nav hidden"></nav>
       <div class="price-threshold-bar">
@@ -68,6 +68,30 @@
             <option value="3.80">$3.80</option>
             <option value="3.90">$3.90</option>
             <option value="4.00">$4.00</option>
+          </select>
+        </label>
+        <label id="foil-common-threshold-label" class="hidden">
+          Foil Common Price Threshold:
+          <select id="foil-common-threshold">
+            <option value="4.50">$4.50</option>
+            <option value="5.00">$5.00</option>
+            <option value="6.50">$6.50</option>
+            <option value="7.00">$7.00</option>
+            <option value="8.50">$8.50</option>
+            <option value="9.00">$9.00</option>
+            <option value="10.00" selected>$10.00</option>
+          </select>
+        </label>
+        <label id="foil-uncommon-threshold-label" class="hidden">
+          Foil Uncommon Price Threshold:
+          <select id="foil-uncommon-threshold">
+            <option value="4.50">$4.50</option>
+            <option value="5.00">$5.00</option>
+            <option value="6.50">$6.50</option>
+            <option value="7.00">$7.00</option>
+            <option value="8.50">$8.50</option>
+            <option value="9.00">$9.00</option>
+            <option value="10.00" selected>$10.00</option>
           </select>
         </label>
         <label id="token-threshold-label" class="hidden">
