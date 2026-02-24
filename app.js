@@ -88,13 +88,31 @@
   var backToTopBtn       = document.getElementById('back-to-top');
   var errorEl            = document.getElementById('error-message');
   var endMessageEl       = document.getElementById('end-message');
-  var commonThresholdEl   = document.getElementById('common-threshold');
-  var uncommonThresholdEl = document.getElementById('uncommon-threshold');
-  var currencySelectEl    = document.getElementById('currency-select');
-  var cardLinkSelectEl    = document.getElementById('card-link-select');
+  var commonThresholdEl        = document.getElementById('common-threshold');
+  var uncommonThresholdEl      = document.getElementById('uncommon-threshold');
+  var basicLandThresholdEl      = document.getElementById('basic-land-threshold');
+  var tokenThresholdEl          = document.getElementById('token-threshold');
+  var commonThresholdLabelEl    = document.getElementById('common-threshold-label');
+  var uncommonThresholdLabelEl  = document.getElementById('uncommon-threshold-label');
+  var basicLandThresholdLabelEl = document.getElementById('basic-land-threshold-label');
+  var tokenThresholdLabelEl     = document.getElementById('token-threshold-label');
+  var currencySelectEl         = document.getElementById('currency-select');
+  var cardLinkSelectEl         = document.getElementById('card-link-select');
 
-  function getCommonThreshold()   { return parseFloat(commonThresholdEl.value); }
-  function getUncommonThreshold() { return parseFloat(uncommonThresholdEl.value); }
+  function getCommonThreshold()    { return parseFloat(commonThresholdEl.value); }
+  function getUncommonThreshold()  { return parseFloat(uncommonThresholdEl.value); }
+  function getBasicLandThreshold() { return parseFloat(basicLandThresholdEl.value); }
+  function getTokenThreshold()     { return parseFloat(tokenThresholdEl.value); }
+
+  function updateThresholdVisibility(format) {
+    var isBasicLand = format === 'basic_land';
+    var isToken     = format === 'token';
+    var showCommonUncommon = !isBasicLand && !isToken;
+    commonThresholdLabelEl.classList.toggle('hidden', !showCommonUncommon);
+    uncommonThresholdLabelEl.classList.toggle('hidden', !showCommonUncommon);
+    basicLandThresholdLabelEl.classList.toggle('hidden', !isBasicLand);
+    tokenThresholdLabelEl.classList.toggle('hidden', !isToken);
+  }
   function getCurrency()          { return currencySelectEl.value; }
 
   function getCardLinkUrl(name) {
@@ -456,10 +474,11 @@
       btn.classList.add('active');
 
       var format = btn.dataset.format;
+      updateThresholdVisibility(format);
       if (format === 'basic_land') {
-        startSingleFetch(BASIC_LAND_URL, MIN_PRICE_SPECIAL);
+        startSingleFetch(BASIC_LAND_URL, getBasicLandThreshold());
       } else if (format === 'token') {
-        startSingleFetch(TOKEN_URL, MIN_PRICE_SPECIAL);
+        startSingleFetch(TOKEN_URL, getTokenThreshold());
       } else if (format === 'foil') {
         startFoilFetch();
       } else {
@@ -473,16 +492,24 @@
       var activeBtn = document.querySelector('.tab-btn.active');
       if (!activeBtn) return;
       var format = activeBtn.dataset.format;
-      if (format === 'basic_land') {
-        startSingleFetch(BASIC_LAND_URL, MIN_PRICE_SPECIAL);
-      } else if (format === 'token') {
-        startSingleFetch(TOKEN_URL, MIN_PRICE_SPECIAL);
-      } else if (format === 'foil') {
+      if (format === 'foil') {
         startFoilFetch();
-      } else {
+      } else if (format !== 'basic_land' && format !== 'token') {
         startFetching(format);
       }
     });
+  });
+
+  basicLandThresholdEl.addEventListener('change', function () {
+    var activeBtn = document.querySelector('.tab-btn.active');
+    if (!activeBtn || activeBtn.dataset.format !== 'basic_land') return;
+    startSingleFetch(BASIC_LAND_URL, getBasicLandThreshold());
+  });
+
+  tokenThresholdEl.addEventListener('change', function () {
+    var activeBtn = document.querySelector('.tab-btn.active');
+    if (!activeBtn || activeBtn.dataset.format !== 'token') return;
+    startSingleFetch(TOKEN_URL, getTokenThreshold());
   });
 
   window.addEventListener('scroll', function () {
